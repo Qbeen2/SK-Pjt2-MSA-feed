@@ -1,16 +1,18 @@
 package org.example.msasbfeed.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FeedResponseDto {
     private Long id;
-    private Long authorId;
+    private Long userId;
+    private Long groupId;
     private String content;
-    private String imageUrl;
     private LocalDateTime createdAt;
 }

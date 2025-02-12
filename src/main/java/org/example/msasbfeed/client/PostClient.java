@@ -11,12 +11,12 @@ import java.util.List;
 @FeignClient(name = "post-service")
 public interface PostClient {
 
-    @GetMapping("/api/posts/tag/{tag}")
+    @GetMapping("/posts/tag/{tag}")
     List<FeedResponseDto> getPostsByTag(@PathVariable String tag);
 
-    @GetMapping("/api/posts/group/{groupId}")
+    @GetMapping("/posts/group/{groupId}")
     List<FeedResponseDto> getPostsByGroup(@PathVariable Long groupId);
 
-    @GetMapping("/api/posts/users")
+    @GetMapping("/posts/users")
     List<FeedResponseDto> getPostsByUsers(@RequestParam List<Long> userIds);
 }

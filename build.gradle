@@ -23,83 +23,67 @@ dependencyManagement {
     }
 }
 dependencies {
-    // 편의성 도구 devtool, lombok
+    // Lombok (편의성 도구)
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // 스프링시큐리티
+    // Spring Security (보안 관련)
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-crypto'
 
-    // JWT 처리, 버전은 참고
+    // JWT 처리 (필요한 경우, 게이트웨이에서 JWT 검증을 수행하지 않고 Feed 서비스에서도 처리할 경우)
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
-    // mysql -> 회원정보 저장 (이메일, 아이디, 비번, 이름(?),..)
+    // MySQL 및 JPA (게시글 데이터 저장)
     runtimeOnly 'com.mysql:mysql-connector-j'
-    // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // 유레카 클라이언트
+    // Eureka Client (MSA 서비스 디스커버리)
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
-    // redis, 토큰 저장 및 조회
+    // Redis (캐싱, 토큰 저장 등)
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-    // 리액티브 웹(spring-boot-starter-webflux) <-> MVC 웹(spring-boot-starter-web)
+    // 웹 (리액티브 웹 사용 - 필요에 따라 spring-boot-starter-web으로 변경 가능)
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-    // 향후 추가
-    // kafka : 주문, 결제 등등 이벤트 발생시 송수신 처리 등등 비동기 구성 -> 메세징 서비스
-    //         서비스간 통신용도
-    // 실시간 데이터 스트리밍 처리용도
+    // Kafka (이벤트 스트리밍, 서비스 간 통신)
     implementation 'org.apache.kafka:kafka-streams'
-    // 스프링부트에서 지원하는 카프카(브로커 및 기타 일반적 용도)
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 
-    // (*)Jackson | gson : JSON 데이터 처리 -> 데이터 형태 파싱
-
-    // actuator
-    // 모니터링, 매트릭수집(성능측정), 환경정보, 로그관리, 헬스 체크,..
+    // Actuator (모니터링, 헬스 체크 등)
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    // Fegin Client
-    // Spring Cloud에서 제공하는 http 클라이언트
-    // restful client 호출때 간편 사용을 위한 서포트 라이브러리
-    // msa 내부에서 서비스간 통신시 활용됨(많이 사용)
     // OpenFeign (서비스 간 HTTP 통신)
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+    // Resilience4j (서킷 브레이커 등 장애 대응)
+    implementation 'io.github.resilience4j:resilience4j-spring-boot2'
 
-    // 로그 -> 롬복 지원 가능 -> AOP 연동
+    // MapStruct (DTO 변환, 편리한 매핑)
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
+    // Micrometer + Prometheus (애플리케이션 모니터링)
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // Spring Boot Validation (입력값 검증)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Test Dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // 수업내용 외 추가
-
-    // Feign Client (서비스 간 HTTP 통신)
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-
-    // Resilience4j (서킷 브레이커)
-    implementation 'io.github.resilience4j:resilience4j-spring-boot2'
-
-    // MapStruct (DTO 변환)
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-
-    // Micrometer + Prometheus (모니터링)
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
-    // Spring Boot Validation (입력 검증)
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
 }
+
 
 tasks.named('test') {
     useJUnitPlatform()
