@@ -8,6 +8,7 @@ import java.util.List;
 
 @FeignClient(name = "user-service")
 public interface UserClient {
-    @GetMapping("/users/{userId}/following")
-    List<Long> getFollowingUserIds(@PathVariable Long userId);
+
+    @GetMapping("/api/users/{uid}/following")
+    List<Long> getFollowingUserIds(@PathVariable Long uid);
 }

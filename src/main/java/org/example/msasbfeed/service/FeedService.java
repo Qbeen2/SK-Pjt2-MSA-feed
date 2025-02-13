@@ -1,9 +1,9 @@
 package org.example.msasbfeed.service;
 
 import org.example.msasbfeed.dto.FeedResponseDto;
-import org.example.msasbfeed.entity.Post;
+import org.example.msasbfeed.entity.PostEntity;
 import org.example.msasbfeed.repository.PostRepository;
-import org.example.msasbfeed.client.UserClient;  // 팔로우한 사용자 목록을 조회하기 위한 FeignClient
+import org.example.msasbfeed.client.UserClient;  // 팔로우한 사용자 목록 조회용 FeignClient
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,32 +20,37 @@ public class FeedService {
         this.userClient = userClient;
     }
 
-    // 해시태그 기반 추천: SQL에서 해당 해시태그를 가진 게시글 조회
+    // 태그 기반 추천: 해당 태그를 가진 게시글 조회
     public List<FeedResponseDto> getRecommendedFeedsByTag(String tag) {
-        List<Post> posts = postRepository.findByHashtag(tag);
+        List<PostEntity> posts = postRepository.findByTag(tag);
         return posts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    // 그룹 기반 추천: SQL에서 특정 그룹에 속한 게시글 조회
-    public List<FeedResponseDto> getRecommendedFeedsByGroup(Long groupId) {
-        List<Post> posts = postRepository.findByGroupId(groupId);
+    // 그룹 기반 추천: 특정 그룹(gid)에 속한 게시글 조회
+    public List<FeedResponseDto> getRecommendedFeedsByGroup(Long gid) {
+        List<PostEntity> posts = postRepository.findByGid(gid);
         return posts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    // 팔로우 기반 추천: UserClient를 통해 팔로우한 사용자 ID 목록을 조회한 후 해당 작성자들의 게시글 조회
-    public List<FeedResponseDto> getRecommendedFeedsByFollowing(Long userId) {
-        List<Long> followingUserIds = userClient.getFollowingUserIds(userId);
-        List<Post> posts = postRepository.findByUserIdIn(followingUserIds);
+    // 팔로우 기반 추천: userClient를 통해 팔로우한 사용자들의 uid 목록을 조회 후, 해당 사용자의 게시글 조회
+    public List<FeedResponseDto> getRecommendedFeedsByFollowing(Long uid) {
+        List<Long> followingIds = userClient.getFollowingUserIds(uid);
+        List<PostEntity> posts = postRepository.findByUidIn(followingIds);
         return posts.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    private FeedResponseDto convertToDto(Post post) {
+    private FeedResponseDto convertToDto(PostEntity post) {
         return FeedResponseDto.builder()
-                .id(post.getId())
-                .userId(post.getUserId())
-                .groupId(post.getGroupId())
+                .pid(post.getPid())
+                .uid(post.getUid())
+                .type(post.getType())
+                .gid(post.getGid())
+                .date(post.getDate())
                 .content(post.getContent())
-                .createdAt(post.getCreatedAt())
+                .cid(post.getCid())
+                .youLike(post.getYouLike())
+                .tag(post.getTag())
+                .image(post.getImage())
                 .build();
     }
 }

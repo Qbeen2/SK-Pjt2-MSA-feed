@@ -17,21 +17,21 @@ public class FeedController {
         this.feedService = feedService;
     }
 
-    // 해시태그 기반 추천 피드 (JSON 응답)
+    // 태그 기반 추천 피드 조회: 예) /feed/recommend/tag/coding
     @GetMapping(value = "/recommend/tag/{tag}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FeedResponseDto> getRecommendedFeedsByTag(@PathVariable String tag) {
         return feedService.getRecommendedFeedsByTag(tag);
     }
 
-    // 그룹 기반 추천 피드 (JSON 응답)
-    @GetMapping(value = "/recommend/group/{groupId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FeedResponseDto> getRecommendedFeedsByGroup(@PathVariable Long groupId) {
-        return feedService.getRecommendedFeedsByGroup(groupId);
+    // 그룹 기반 추천 피드 조회: 예) /feed/recommend/group/101
+    @GetMapping(value = "/recommend/group/{gid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FeedResponseDto> getRecommendedFeedsByGroup(@PathVariable Long gid) {
+        return feedService.getRecommendedFeedsByGroup(gid);
     }
 
-    // 팔로우한 사용자 기반 추천 피드 (JSON 응답)
-    @GetMapping(value = "/recommend/following/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FeedResponseDto> getRecommendedFeedsByFollowing(@PathVariable Long userId) {
-        return feedService.getRecommendedFeedsByFollowing(userId);
+    // 팔로우 기반 추천 피드 조회: 예) /feed/recommend/following/1
+    @GetMapping(value = "/recommend/following/{uid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FeedResponseDto> getRecommendedFeedsByFollowing(@PathVariable Long uid) {
+        return feedService.getRecommendedFeedsByFollowing(uid);
     }
 }
