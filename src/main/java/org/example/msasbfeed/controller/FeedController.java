@@ -4,6 +4,7 @@ import org.example.msasbfeed.dto.FeedResponseDto;
 import org.example.msasbfeed.service.FeedService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -18,20 +19,22 @@ public class FeedController {
     }
 
     // 태그 기반 추천 피드 조회: 예) /feed/recommend/tag/coding
+    // Mono 형식으로 반환 처리 진행
     @GetMapping(value = "/recommend/tag/{tag}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FeedResponseDto> getRecommendedFeedsByTag(@PathVariable String tag) {
+    public Mono<List<FeedResponseDto>> getRecommendedFeedsByTag(@PathVariable String tag) {
         return feedService.getRecommendedFeedsByTag(tag);
     }
 
-    // 그룹 기반 추천 피드 조회: 예) /feed/recommend/group/101
+//    // 그룹 기반 추천 피드 조회: 예) /feed/recommend/group/101
+    // Mono 형식으로 반환 처리 진행
     @GetMapping(value = "/recommend/group/{gid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FeedResponseDto> getRecommendedFeedsByGroup(@PathVariable Long gid) {
+    public Mono<List<FeedResponseDto>> getRecommendedFeedsByGroup(@PathVariable Long gid) {
         return feedService.getRecommendedFeedsByGroup(gid);
     }
-
-    // 팔로우 기반 추천 피드 조회: 예) /feed/recommend/following/1
-    @GetMapping(value = "/recommend/following/{uid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FeedResponseDto> getRecommendedFeedsByFollowing(@PathVariable Long uid) {
-        return feedService.getRecommendedFeedsByFollowing(uid);
-    }
+//
+//    // 팔로우 기반 추천 피드 조회: 예) /feed/recommend/following/1
+//    @GetMapping(value = "/recommend/following/{uid}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public List<FeedResponseDto> getRecommendedFeedsByFollowing(@PathVariable Long uid) {
+//        return feedService.getRecommendedFeedsByFollowing(uid);
+//    }
 }
