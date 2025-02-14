@@ -15,7 +15,7 @@ public class FeedResponseDto {
     private Long gid;         // 그룹 번호
     private LocalDateTime date; // 작성 날짜
     private String content;   // 게시글 내용
-    private Long cid;         // 댓글 번호
+//    private Long cid;         // 댓글 번호
     private Long youLike;     // 좋아요 개수
     private String tag;       // 태그
     private String image;     // 이미지 URL
