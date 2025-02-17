@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "post-service")
+@FeignClient(name = "post")
 public interface PostClient {
 
     @GetMapping("/posts/tag/{tag}")
