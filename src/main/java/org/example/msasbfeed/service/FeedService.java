@@ -11,7 +11,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class FeedService {
@@ -69,7 +68,7 @@ public class FeedService {
                 .date(post.getDate())
                 .content(post.getContent())
                 .youLike(post.getYouLike())
-                .tag(post.getTag())
+                .tags(post.getTags())
                 .image(post.getImage())
                 .build();
     }
