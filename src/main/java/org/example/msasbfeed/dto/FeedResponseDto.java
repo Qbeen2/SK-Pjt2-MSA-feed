@@ -2,6 +2,7 @@ package org.example.msasbfeed.dto;
 
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +18,6 @@ public class FeedResponseDto {
     private String content;   // 게시글 내용
 //    private Long cid;         // 댓글 번호
     private Long youLike;     // 좋아요 개수
-    private String tag;       // 태그
+    private List<String> tag; // 태그
     private String image;     // 이미지 URL
 }

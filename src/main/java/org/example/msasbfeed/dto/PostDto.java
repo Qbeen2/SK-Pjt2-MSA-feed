@@ -3,6 +3,7 @@ package org.example.msasbfeed.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class PostDto {
@@ -13,14 +14,14 @@ public class PostDto {
     private LocalDateTime date;
     private String content;
     private Long youLike;
-    private String tag;
+    private List<String> tag;
     private String image;
     private Integer commentCount;   // 댓글 개수
 
     @Builder
     public PostDto
             (Long pid, Long uid, String type, Long gid,
-             LocalDateTime date, String content, Long youLike, String tag, String image, Integer commentCount) {
+             LocalDateTime date, String content, Long youLike, List<String> tag, String image, Integer commentCount) {
         this.pid = pid;
         this.uid = uid;
         this.type = type;
