@@ -4,6 +4,7 @@ import org.example.msasbfeed.dto.FeedResponseDto;
 import org.example.msasbfeed.client.UserClient;  // 팔로우한 사용자 목록 조회용 FeignClient
 import org.example.msasbfeed.dto.PostDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -22,6 +23,11 @@ public class FeedService {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
+    @Autowired
+    private Environment env;
+
+
+
     public FeedService( UserClient userClient) {
         this.userClient = userClient;
     }
@@ -29,7 +35,10 @@ public class FeedService {
     // 태그 기반 추천: 해당 태그를 가진 게시글 조회
     // Mono 형식으로 반환
     public Mono<List<FeedResponseDto>>  getRecommendedFeedsByTag(String tag) {
-        return webClientBuilder.baseUrl("http://localhost:8081").build() // 참조할 서비스
+
+        String release_ip = env.getProperty("app.post_ip");
+
+        return webClientBuilder.baseUrl(release_ip).build() // 참조할 서비스
                 .post() // Post 방식으로 진행
                 .uri("/search/tag") // URI
                 .contentType(MediaType.APPLICATION_JSON) // JSON 형태로 전달
@@ -42,7 +51,9 @@ public class FeedService {
 
 //    // 그룹 기반 추천: 특정 그룹(gid)에 속한 게시글 조회
     public Mono<List<FeedResponseDto>>  getRecommendedFeedsByGroup(Long gid) {
-        return webClientBuilder.baseUrl("http://localhost:8081").build()
+        String release_ip = env.getProperty("app.post_ip");
+
+        return webClientBuilder.baseUrl(release_ip).build()
                 .post()
                 .uri("/search/gid")
                 .contentType(MediaType.APPLICATION_JSON)
